@@ -24,9 +24,6 @@
     (format nil "~2,'0D:~2,'0D:~2,'0D ~D/~D/~D ~[月~;火~;水~;木~;金~;土~;日~]曜日"
             hour minute second year month day day-of-week)))
 
-(unless (stumpwm::head-mode-line (current-head))
-  (toggle-mode-line (current-screen) (current-head)))
-
 (defun groups-string ()
   (format nil "~{~A~}"
           (loop :for n :from 1
@@ -44,5 +41,8 @@
           (stumpwm::fmt-head-window-list ml)))
 
 (add-screen-mode-line-formatter #\@ 'modeline-string)
+
+(unless (stumpwm::head-mode-line (current-head))
+  (toggle-mode-line (current-screen) (current-head)))
 
 (setf *screen-mode-line-format* "%@")

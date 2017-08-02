@@ -58,5 +58,4 @@
 
 
 ;(set-font "-gnu-unifont csur-medium-r-normal-sans-16-160-75-75-c-80-iso10646-1")
-(load-module "ttf-fonts")
 (set-font (make-instance 'xft:font :family "VL Gothic" :subfamily "regular" :size 12))
