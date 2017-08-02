@@ -1,5 +1,5 @@
 (defsystem "stumpwm-config"
   :depends-on ("trivial-battery")
-  :components ((:file "main")
+  :components ((:file "stumpwm-config")
                (:file "modeline")
                (:file "quickmenu")))
