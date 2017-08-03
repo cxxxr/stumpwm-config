@@ -1,6 +1,6 @@
-(defpackage :stump-config.quickmenu
+(defpackage :stumpwm-config.quickmenu
   (:use :cl :stumpwm))
-(in-package :stump-config.quickmenu)
+(in-package :stumpwm-config.quickmenu)
 
 (defvar *table*
   '(("firefox"     :command "exec firefox")
