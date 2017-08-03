@@ -20,9 +20,9 @@
 (defun current-date ()
   (multiple-value-bind (second minute hour day month year day-of-week daylight-p zone)
       (decode-universal-time (get-universal-time))
-    (declare (ignore daylight-p zone))
-    (format nil "~2,'0D:~2,'0D:~2,'0D ~D/~D/~D ~[月~;火~;水~;木~;金~;土~;日~]曜日"
-            hour minute second year month day day-of-week)))
+    (declare (ignore second daylight-p zone))
+    (format nil "~2,'0D:~2,'0D ~D/~D/~D ~[月~;火~;水~;木~;金~;土~;日~]曜日"
+            hour minute year month day day-of-week)))
 
 (defun groups-string ()
   (format nil "~{~A~}"
