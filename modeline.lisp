@@ -33,18 +33,19 @@
                                (stumpwm::fmt-highlight str)
                                str)))))
 
-(defun clip-column>n (str n)
-  (if (< n (stumpwm-config.column-util:string-width str))
-      (setf str (concatenate 'string
-                             (subseq str 0 (- (stumpwm-config.column-util:wide-index str n) 3))
-                             "..."))
-      str))
+(defun adjust-width (str n)
+  (let ((width (stumpwm-config.column-util:string-width str)))
+    (if (< n width)
+        (setf str (concatenate 'string
+                               (subseq str 0 (- (stumpwm-config.column-util:wide-index str n) 3))
+                               "..."))
+        (concatenate 'string str (make-string (- n width) :initial-element #\space)))))
 
 (defun window-list-string (ml)
   (format nil "~{~A~}"
           (mapcar (lambda (w)
                     (let ((str (format-expand *window-formatters* *window-format* w)))
-                      (setf str (clip-column>n str 30))
+                      (setf str (adjust-width str 20))
                       (setf str (format nil "[~A]" str))
                       (if (eq w (current-window))
                           (stumpwm::fmt-highlight str)
