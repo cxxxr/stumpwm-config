@@ -33,12 +33,32 @@
                                (stumpwm::fmt-highlight str)
                                str)))))
 
+(defun clip-column>n (str n)
+  (if (< n (stumpwm-config.column-util:string-width str))
+      (setf str (concatenate 'string
+                             (subseq str 0 (- (stumpwm-config.column-util:wide-index str n) 3))
+                             "..."))
+      str))
+
+(defun window-list-string (ml)
+  (format nil "~{~A~}"
+          (mapcar (lambda (w)
+                    (let ((str (format-expand *window-formatters* *window-format* w)))
+                      (setf str (clip-column>n str 30))
+                      (setf str (format nil "[~A]" str))
+                      (if (eq w (current-window))
+                          (stumpwm::fmt-highlight str)
+                          str)))
+                  (stumpwm::sort1 (stumpwm::head-windows (stumpwm::mode-line-current-group ml)
+                                                         (stumpwm::mode-line-head ml))
+                                  #'< :key #'window-number))))
+
 (defun modeline-string (ml)
-  (format nil "^B~A [~A]^b [^B~A^b] ^B~A^b"
+  (format nil "^B~A [~A]^b ^B~A^b ^B~A^b"
           (current-date)
           (battery-text)
           (groups-string)
-          (stumpwm::fmt-head-window-list ml)))
+          (window-list-string ml)))
 
 (add-screen-mode-line-formatter #\@ 'modeline-string)
 
