@@ -9,11 +9,12 @@
   (cond ((or (null *battery-last-update*)
              (< 10 (- (get-universal-time) *battery-last-update*)))
          (setf *battery-last-update* (get-universal-time))
-         (let* ((alist (trivial-battery:battery-info))
-                (percentage (cdr (assoc "percentage" alist :test #'equal)))
-                (charging (cdr (assoc "charging" alist :test #'equal))))
-           (setf *battery-last-text*
-                 (format nil "~D% ~:[BAT~;AC~]" percentage charging))))
+         (let ((info (first (trivial-battery:battery-info))))
+           (when info
+             (let* ((percentage (cdr (assoc "percentage" info :test #'equal)))
+                    (charging (cdr (assoc "charging" info :test #'equal))))
+               (setf *battery-last-text*
+                     (format nil "~D% ~:[BAT~;AC~]" percentage charging))))))
         (t
          *battery-last-text*)))
 
@@ -63,7 +64,8 @@
 
 (add-screen-mode-line-formatter #\@ 'modeline-string)
 
-(unless (stumpwm::head-mode-line (current-head))
-  (toggle-mode-line (current-screen) (current-head)))
+(dolist (screen *screen-list*)
+  (unless (stumpwm::head-mode-line (current-head))
+    (toggle-mode-line screen (current-head))))
 
 (setf *screen-mode-line-format* "%@")

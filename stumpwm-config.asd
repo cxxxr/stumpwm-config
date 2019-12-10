@@ -1,6 +1,6 @@
 (defsystem "stumpwm-config"
-  :depends-on ("trivial-battery" "ttf-fonts" "swank")
+  :depends-on ("trivial-battery" #|"ttf-fonts"|# "swank")
   :components ((:file "stumpwm-config")
                (:file "column-util")
                (:file "modeline")
-               (:file "quickmenu")))
+               #+(or)(:file "quickmenu")))

@@ -11,15 +11,16 @@
 (set-focus-color "orange")
 (set-unfocus-color "gray")
 
-(set-prefix-key (kbd "C-3"))
+;; (set-prefix-key (kbd "C-3"))
 
 
 (defcommand shutdown () () (run-shell-command "systemctl poweroff"))
 (defcommand reboot () () (run-shell-command "systemctl reboot"))
+(defcommand suspend () () (run-shell-command "systemctl suspend"))
 
 (define-key *root-map* (kbd "b") "exec firefox")
-(define-key *root-map* (kbd "c") "exec xfce4-terminal")
-(define-key *root-map* (kbd "C-c") "exec xfce4-terminal")
+(define-key *root-map* (kbd "c") "exec gnome-terminal")
+(define-key *root-map* (kbd "C-c") "exec gnome-terminal")
 
 (define-key *top-map* (kbd "s-n") "pull-hidden-next")
 (define-key *top-map* (kbd "s-p") "pull-hidden-previous")
@@ -56,8 +57,12 @@
 (define-key stumpwm::*menu-map* (kbd "TAB") 'stumpwm::menu-down)
 (define-key stumpwm::*menu-map* (kbd "M-TAB") 'stumpwm::menu-down)
 
-
-;(set-font "-gnu-unifont csur-medium-r-normal-sans-16-160-75-75-c-80-iso10646-1")
-(set-font (make-instance 'xft:font :family "VL Gothic" :subfamily "regular" :size 12))
+(defparameter +swank-port+ 33333)
 
-(swank:create-server :dont-close t :port 33333)
+(defcommand swank () ()
+  (swank:create-server :dont-close t :port +swank-port+)
+  (message "swank port: ~D" +swank-port+))
+
+
+(set-font "-gnu-unifont csur-medium-r-normal-sans-16-160-75-75-c-80-iso10646-1")
+;; (set-font (make-instance 'xft:font :family "VL Gothic" :subfamily "regular" :size 12))
