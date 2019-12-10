@@ -51,8 +51,7 @@
                       (if (eq w (current-window))
                           (stumpwm::fmt-highlight str)
                           str)))
-                  (stumpwm::sort1 (stumpwm::head-windows (stumpwm::mode-line-current-group ml)
-                                                         (stumpwm::mode-line-head ml))
+                  (stumpwm::sort1 (group-windows (stumpwm::mode-line-current-group ml))
                                   #'< :key #'window-number))))
 
 (defun modeline-string (ml)
@@ -64,8 +63,7 @@
 
 (add-screen-mode-line-formatter #\@ 'modeline-string)
 
-(dolist (screen *screen-list*)
-  (unless (stumpwm::head-mode-line (current-head))
-    (toggle-mode-line screen (current-head))))
+(unless (stumpwm::head-mode-line (current-head))
+  (toggle-mode-line (stumpwm::current-screen) (current-head)))
 
 (setf *screen-mode-line-format* "%@")
