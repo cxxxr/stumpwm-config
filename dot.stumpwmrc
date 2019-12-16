@@ -1,0 +1,9 @@
+;; -*- mode: lisp; package: stumpwm-user -*-
+
+(in-package :stumpwm-user)
+
+(run-shell-command "xrandr --output eDP-1 --mode 1920x1080 --below DP-1")
+(run-shell-command "xset r rate 250 30")
+(run-shell-command "xsetroot -solid slategray")
+
+(ql:quickload :stumpwm-config)
